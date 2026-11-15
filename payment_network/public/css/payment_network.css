@@ -1,0 +1,21 @@
+/* Payment Network shared rules */
+.pn-badge {
+	display: inline-block;
+	padding: 2px 10px;
+	border-radius: 99px;
+	font-size: 12px;
+	background: var(--bg-light-gray, #f3f4f6);
+	color: var(--text-muted, #6b7785);
+}
+.pn-badge.success { background: var(--bg-green, #e6f4ef); color: var(--text-on-green, #0f6b5c); }
+.pn-badge.warning { background: var(--bg-orange, #fff4e0); color: var(--text-on-orange, #b45309); }
+.pn-badge.danger { background: var(--bg-red, #fdecea); color: var(--text-on-red, #b42318); }
+.form-layout .form-message.pn-note,
+.pn-note {
+	border-radius: var(--border-radius-md, 8px);
+	padding: 8px 12px;
+	margin-bottom: var(--margin-md, 10px);
+	background: var(--bg-light-gray, #f3f4f6);
+}
+.pn-amount { font-variant-numeric: tabular-nums; direction: ltr; unicode-bidi: plaintext; }
+.form-section .section-head { font-weight: 600; }

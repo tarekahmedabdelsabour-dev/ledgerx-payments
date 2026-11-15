@@ -1,0 +1,262 @@
+{
+ "actions": [],
+ "creation": "2026-11-15 17:04:02.048680",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_1",
+  "company",
+  "cost_center",
+  "column_break_1",
+  "provider",
+  "mode",
+  "section_break_2",
+  "global_txn_limit",
+  "global_daily_limit",
+  "column_break_2",
+  "approval_threshold",
+  "max_pin_attempts",
+  "lock_minutes",
+  "section_break_3",
+  "pending_review_minutes",
+  "column_break_3",
+  "enable_supplier_payments",
+  "section_break_4",
+  "provider_api_base",
+  "provider_api_key",
+  "column_break_4",
+  "provider_secret",
+  "webhook_secret",
+  "section_break_5",
+  "agent_custody_account",
+  "provider_clearing_account",
+  "wallet_liability_account",
+  "column_break_5",
+  "commission_income_account",
+  "commission_expense_account",
+  "cash_account",
+  "difference_account",
+  "section_break_6",
+  "mode_of_payment"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_1",
+   "fieldtype": "Section Break",
+   "label": "General"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "cost_center",
+   "fieldtype": "Link",
+   "label": "Cost Center",
+   "options": "Cost Center"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "provider",
+   "fieldtype": "Select",
+   "label": "Payment Provider",
+   "options": "Mock",
+   "default": "Mock",
+   "description": "Pick the real provider here once its adapter is installed (see docs/PROVIDERS.md)."
+  },
+  {
+   "fieldname": "mode",
+   "fieldtype": "Select",
+   "label": "Mode",
+   "options": "Sandbox\nLive",
+   "default": "Sandbox",
+   "description": "Sandbox never contacts a real provider and allows the demo data. Switch to Live only after testing."
+  },
+  {
+   "fieldname": "section_break_2",
+   "fieldtype": "Section Break",
+   "label": "Limits"
+  },
+  {
+   "fieldname": "global_txn_limit",
+   "fieldtype": "Currency",
+   "label": "Max Amount per Transaction (all agents)",
+   "description": "0 = no global limit."
+  },
+  {
+   "fieldname": "global_daily_limit",
+   "fieldtype": "Currency",
+   "label": "Max Daily Total per Agent (all agents)",
+   "description": "0 = no global limit."
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "approval_threshold",
+   "fieldtype": "Currency",
+   "label": "Amount Needing Approval",
+   "description": "A transaction at or above this waits for a supervisor/manager approval. 0 = never."
+  },
+  {
+   "fieldname": "max_pin_attempts",
+   "fieldtype": "Int",
+   "label": "Wrong PIN Attempts Before Lock",
+   "default": 5
+  },
+  {
+   "fieldname": "lock_minutes",
+   "fieldtype": "Int",
+   "label": "PIN Lock Duration (minutes)",
+   "default": 15
+  },
+  {
+   "fieldname": "section_break_3",
+   "fieldtype": "Section Break",
+   "label": "Pending Transactions"
+  },
+  {
+   "fieldname": "pending_review_minutes",
+   "fieldtype": "Int",
+   "label": "Review Pending Transactions After (minutes)",
+   "default": 5,
+   "description": "A scheduled job asks the provider about transactions still processing after this long."
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "enable_supplier_payments",
+   "fieldtype": "Check",
+   "label": "Allow Paying Suppliers Electronically",
+   "default": 0
+  },
+  {
+   "fieldname": "section_break_4",
+   "fieldtype": "Section Break",
+   "label": "Provider Connection"
+  },
+  {
+   "fieldname": "provider_api_base",
+   "fieldtype": "Data",
+   "label": "Provider API Address"
+  },
+  {
+   "fieldname": "provider_api_key",
+   "fieldtype": "Password",
+   "label": "Provider API Key"
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "provider_secret",
+   "fieldtype": "Password",
+   "label": "Provider Secret"
+  },
+  {
+   "fieldname": "webhook_secret",
+   "fieldtype": "Password",
+   "label": "Webhook Signing Secret",
+   "description": "The provider signs each callback with this secret (HMAC-SHA256, header X-Signature). Unsigned or wrongly signed callbacks are rejected."
+  },
+  {
+   "fieldname": "section_break_5",
+   "fieldtype": "Section Break",
+   "label": "Accounts"
+  },
+  {
+   "fieldname": "agent_custody_account",
+   "fieldtype": "Link",
+   "label": "Agents Cash Custody Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "provider_clearing_account",
+   "fieldtype": "Link",
+   "label": "Payment Provider Clearing Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "wallet_liability_account",
+   "fieldtype": "Link",
+   "label": "Wallet Balances Liability Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "column_break_5",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "commission_income_account",
+   "fieldtype": "Link",
+   "label": "Commission Income Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "commission_expense_account",
+   "fieldtype": "Link",
+   "label": "Agents Commission Expense Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "cash_account",
+   "fieldtype": "Link",
+   "label": "Company Cash Account (receives settlements)",
+   "options": "Account"
+  },
+  {
+   "fieldname": "difference_account",
+   "fieldtype": "Link",
+   "label": "Cash Difference Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "section_break_6",
+   "fieldtype": "Section Break",
+   "label": "Sales Link"
+  },
+  {
+   "fieldname": "mode_of_payment",
+   "fieldtype": "Link",
+   "label": "Electronic Payment Mode",
+   "options": "Mode of Payment",
+   "default": "Electronic Payment"
+  }
+ ],
+ "links": [],
+ "modified": "2026-11-15 17:04:02.048680",
+ "modified_by": "Administrator",
+ "module": "Payment Network",
+ "name": "Payment Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "read": 1,
+   "role": "Payment Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "System Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Payment Auditor"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "icon": "fa fa-cog",
+ "issingle": 1
+}

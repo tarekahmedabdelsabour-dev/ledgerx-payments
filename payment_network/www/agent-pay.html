@@ -1,0 +1,294 @@
+{% extends "templates/web.html" %}
+{% block navbar %}{% endblock %}
+{% block footer %}{% endblock %}
+{% block page_content %}
+<style>
+#pna{--bg:#f4f6f8;--card:#fff;--ink:#1c2733;--mute:#6b7785;--brand:#0f6b5c;--warn:#b45309;--bad:#b42318;--line:#e3e8ee;--soft:#e6f4ef;--wsoft:#fff4e0;--bsoft:#fdecea;
+ direction:rtl;font-family:system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;color:var(--ink);max-width:560px;margin:0 auto;padding:10px 14px 96px}
+@media(prefers-color-scheme:dark){ #pna{--bg:#12181f;--card:#1b242d;--ink:#e8edf2;--mute:#9aa7b4;--line:#2a3541;--brand:#3fbf9f;--soft:#16302a;--wsoft:#3a2d12;--bsoft:#3b1a17;--warn:#f0b35a;--bad:#ff8a7e}}
+body{background:#f4f6f8}
+@media(prefers-color-scheme:dark){body{background:#12181f}}
+#pna *{box-sizing:border-box}
+#pna .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px;margin:10px 0}
+#pna h1{font-size:18px;margin:4px 0}#pna h2{font-size:15px;margin:0 0 8px}
+#pna .mute{color:var(--mute);font-size:13px}
+#pna .row{display:flex;gap:8px;flex-wrap:wrap}
+#pna .kpi{flex:1 1 44%;background:var(--bg);border-radius:10px;padding:9px}
+#pna .kpi b{display:block;font-size:19px}
+#pna button{font-family:inherit}
+#pna .btn{display:block;width:100%;min-height:50px;font-size:16px;border:0;border-radius:12px;background:var(--brand);color:#fff;margin:6px 0;cursor:pointer}
+#pna .btn.alt{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+#pna .btn.bad{background:var(--bad);color:#fff}
+#pna .btn.sm{min-height:40px;font-size:14px;width:auto;padding:0 14px;display:inline-block;margin:3px}
+#pna .btn:disabled{opacity:.5}
+#pna label{display:block;margin:10px 0 4px;font-size:14px}
+#pna input,#pna select,#pna textarea{width:100%;min-height:46px;font-size:16px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font-family:inherit}
+#pna .msg{padding:10px;border-radius:10px;margin:8px 0}
+#pna .msg.ok{background:var(--soft);color:var(--brand)}#pna .msg.err{background:var(--bsoft);color:var(--bad)}#pna .msg.warn{background:var(--wsoft);color:var(--warn)}
+#pna .msg.big{text-align:center;padding:22px 10px;font-size:17px}
+#pna .msg.big b{display:block;font-size:30px;margin-bottom:6px}
+#pna table{width:100%;border-collapse:collapse;font-size:14px}#pna td,#pna th{padding:6px 3px;border-bottom:1px solid var(--line);text-align:right}
+#pna .pill{font-size:12px;padding:2px 8px;border-radius:99px;background:var(--bg);white-space:nowrap}
+#pna .pill.g{background:var(--soft);color:var(--brand)}#pna .pill.w{background:var(--wsoft);color:var(--warn)}#pna .pill.r{background:var(--bsoft);color:var(--bad)}
+#pna .neg{color:var(--bad)}
+#pna .item{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 2px;border-bottom:1px solid var(--line);cursor:pointer}
+#pna .bar{height:10px;background:var(--bg);border-radius:99px;overflow:hidden;margin:6px 0}
+#pna .bar i{display:block;height:100%;background:var(--brand)}#pna .bar.hi i{background:var(--warn)}#pna .bar.max i{background:var(--bad)}
+#pna .tabs{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);display:flex;z-index:50;padding-bottom:env(safe-area-inset-bottom)}
+#pna .tabs button{flex:1;border:0;background:none;padding:9px 2px;font-size:12px;color:var(--mute)}
+#pna .tabs button.on{color:var(--brand);font-weight:700}
+#pna .tabs button span{display:block;font-size:20px}
+#pna .back{border:0;background:none;color:var(--brand);font-size:15px;padding:6px 0;cursor:pointer}
+#pna .chips{display:flex;gap:8px;flex-wrap:wrap}
+#pna .chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:9px 14px;font-size:14px;cursor:pointer}
+#pna .chip.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+#pna .sandbox{background:var(--wsoft);color:var(--warn);text-align:center;padding:6px;border-radius:10px;font-weight:700;margin:6px 0}
+#pna .setpin{border:2px solid var(--brand);background:var(--soft)}
+#pna .sum td:first-child{color:var(--mute)}
+#pna .ltr{direction:ltr;unicode-bidi:plaintext}
+</style>
+<div id="pna">
+ <div id="app"></div>
+ <div class="tabs" id="tabs">
+  <button data-t="home" class="on"><span>🏠</span>الرئيسية</button>
+  <button data-t="new"><span>➕</span>عملية جديدة</button>
+  <button data-t="hist"><span>🧾</span>السجل</button>
+  <button data-t="cash"><span>💰</span>النقدية</button>
+  <button data-t="set"><span>⚙️</span>الإعدادات</button>
+ </div>
+</div>
+<script>
+(function(){
+ var CSRF="{{ csrf_token }}", P="/api/method/payment_network.api.agent.", ME=null, TAB="home", LOADERR=null, DETAIL=null;
+ var SVCS=null, FORM={svc:null,amount:"",ref:"",key:null}, POLL=null, QT=null, SENDING=false;
+ var $=function(i){return document.getElementById(i)};
+ function esc(s){var d=document.createElement("div");d.textContent=s==null?"":s;return d.innerHTML}
+ function money(n){return (Number(n)||0).toLocaleString("ar-EG",{maximumFractionDigits:2})}
+ function m2(n){return money(n)+" "+(ME&&ME.currency?ME.currency:"")}
+ function uuid(){
+  try{if(window.crypto&&crypto.randomUUID)return crypto.randomUUID()}catch(e){}
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,function(c){var r=Math.random()*16|0;return(c==="x"?r:(r&3|8)).toString(16)})}
+ var MEMDEV=null;
+ function deviceId(){
+  try{var d=localStorage.getItem("pna_device");if(!d){d=uuid();localStorage.setItem("pna_device",d)}return d}
+  catch(e){if(!MEMDEV)MEMDEV=uuid();return MEMDEV}}
+ var DEV=deviceId();
+ var TS={Pending:["بانتظار الموافقة","w"],Processing:["قيد المعالجة","w"],Success:["ناجحة","g"],Failed:["فاشلة","r"]};
+ var SS={0:["بانتظار تأكيد المشرف","w"],1:["مؤكد","g"]};
+ function pill(map,k){var v=map[k]||[k,""];return '<span class="pill '+v[1]+'">'+esc(v[0])+'</span>'}
+ function statusPill(t){return t.status==="Pending"&&t.approval_request?'<span class="pill w">بانتظار موافقة المشرف</span>':pill(TS,t.status)}
+
+ function call(method,args,post){
+  var url=P+method,opt={method:post?"POST":"GET",credentials:"same-origin",headers:{"X-Frappe-CSRF-Token":CSRF,"Accept":"application/json","X-Device-Id":DEV}};
+  if(post){opt.headers["Content-Type"]="application/json";opt.body=JSON.stringify(args||{})}
+  else if(args){var qs=[];for(var k in args){if(args[k]!==null&&args[k]!==undefined)qs.push(encodeURIComponent(k)+"="+encodeURIComponent(args[k]))}if(qs.length)url+="?"+qs.join("&")}
+  return fetch(url,opt).then(function(r){return r.json().then(function(j){
+    if(!r.ok||j.exc||(j._server_messages&&j.message===undefined)){
+     var m="تعذر تنفيذ الطلب";
+     try{var sm=JSON.parse(j._server_messages||"[]");if(sm.length){var x=sm[0];try{x=JSON.parse(x).message}catch(e2){}m=String(x).replace(/<[^>]+>/g,"").trim()||m}}catch(e){}
+     if(m==="تعذر تنفيذ الطلب"&&(r.status===401||r.status===403))m="يجب تسجيل الدخول بحساب وكيل";
+     var er=new Error(m);er.server=true;throw er}
+    return j.message},function(){var er=new Error("استجابة غير صالحة من الخادم");er.server=true;throw er})},
+   function(){var er=new Error("لا يوجد اتصال بالشبكة. تحقق من الاتصال وحاول مرة أخرى.");er.net=true;throw er})}
+
+ function setView(h){stopPoll();$("app").innerHTML=h;window.scrollTo(0,0)}
+ function notice(id,t,c){var e=$(id);if(e){e.className="msg "+c;e.textContent=t}}
+ function stopPoll(){if(POLL){clearTimeout(POLL);POLL=null}}
+ function goTab(t){TAB=t;DETAIL=null;[].forEach.call($("tabs").children,function(b){b.className=b.getAttribute("data-t")===t?"on":""});render()}
+ [].forEach.call($("tabs").children,function(b){b.onclick=function(){goTab(b.getAttribute("data-t"))}});
+ function backBtn(){return '<button class="back" id="bk">→ رجوع</button>'}
+
+ function load(){return call("me").then(function(d){ME=d;LOADERR=null;render()}).catch(function(e){ME=null;LOADERR=e.message;render()})}
+ function render(){
+  if(!ME){$("app").innerHTML=LOADERR?'<div class="msg err">'+esc(LOADERR)+'</div><button class="btn alt" id="retry">إعادة المحاولة</button>':'<div class="mute">جاري التحميل...</div>';
+   var r=$("retry");if(r)r.onclick=function(){LOADERR=null;render();load()};return}
+  ({home:vHome,"new":vNew,hist:vHist,cash:vCash,set:vSet})[TAB]()}
+
+ /* ---------- home ---------- */
+ function barCls(p){return p>=100?"max":p>=90?"hi":""}
+ function vHome(){
+  var cl=Number(ME.custody_limit)||0,cu=Number(ME.custody)||0,cp=cl?Math.min(100,cu/cl*100):0;
+  var dl=Number(ME.daily_limit)||0,du=Number(ME.daily_used)||0,dp=dl?Math.min(100,du/dl*100):0;
+  var h='<h1>أهلاً '+esc(ME.name)+'</h1><div class="mute">'+(ME.supervisor?"المشرف: "+esc(ME.supervisor):"")+'</div>';
+  if(ME.mode==="Sandbox")h+='<div class="sandbox">وضع تجريبي</div>';
+  if(!ME.pin_set)h+='<div class="card setpin"><h2>اضبط رقمك السري</h2><div class="mute">لا يمكنك تنفيذ عمليات قبل ضبط الرقم السري.</div><button class="btn" id="h-pin">اضبط رقمك السري</button></div>';
+  if(ME.locked_until)h+='<div class="msg err">الحساب مقفل مؤقتاً حتى '+esc(ME.locked_until)+'</div>';
+  if(!ME.device_registered)h+='<div class="msg warn">هذا الجهاز غير مسجل بعد.</div>';
+  h+='<div class="card"><div class="row"><div class="kpi"><span class="mute">الرصيد المتاح</span><b>'+m2(ME.balance)+'</b></div><div class="kpi"><span class="mute">العمولة</span><b>'+m2(ME.commission)+'</b></div></div></div>';
+  h+='<div class="card"><h2>النقدية بحوزتي</h2><b style="font-size:19px">'+m2(cu)+'</b>'+(cl?'<div class="bar '+barCls(cp)+'"><i style="width:'+cp+'%"></i></div><div class="mute">الحد الأقصى '+m2(cl)+' ('+money(Math.round(cp))+'٪)</div>':'');
+  if(cl&&cp>=90)h+='<div class="msg warn">اقتربت من حد النقدية. سلّم نقديتك للمشرف.</div>';
+  h+='</div><div class="card"><h2>الاستخدام اليومي</h2>'+(dl?'<div class="bar '+barCls(dp)+'"><i style="width:'+dp+'%"></i></div><div class="mute">'+m2(du)+' من '+m2(dl)+'</div>':'<div class="mute">'+m2(du)+'</div>')+
+   (ME.txn_limit?'<div class="mute" style="margin-top:6px">الحد الأقصى للعملية: '+m2(ME.txn_limit)+'</div>':'')+'</div>';
+  h+='<button class="btn" id="h-new">عملية جديدة</button>';
+  setView(h);
+  var p=$("h-pin");if(p)p.onclick=function(){goTab("set")};
+  $("h-new").onclick=function(){goTab("new")}}
+
+ /* ---------- new operation ---------- */
+ function findSvc(n){return (SVCS||[]).filter(function(s){return s.name===n})[0]}
+ function vNew(){
+  if(!ME.pin_set){setView('<div class="card setpin"><h2>اضبط رقمك السري</h2><div class="mute">يلزم ضبط الرقم السري قبل تنفيذ العمليات.</div><button class="btn" id="n-pin">اضبط رقمك السري</button></div>');$("n-pin").onclick=function(){goTab("set")};return}
+  if(!SVCS){setView('<div class="mute">جاري تحميل الخدمات...</div>');
+   call("services").then(function(r){SVCS=r||[];if(TAB==="new")vNew()}).catch(function(e){setView('<div class="msg err">'+esc(e.message)+'</div><button class="btn alt" id="rt">إعادة المحاولة</button>');$("rt").onclick=vNew});return}
+  if(!SVCS.length){setView('<div class="msg warn">لا توجد خدمات متاحة لك حالياً.</div>');return}
+  if(!FORM.key)FORM.key=uuid();
+  var cats={},order=[];SVCS.forEach(function(s){var c=s.category||"أخرى";if(!cats[c]){cats[c]=[];order.push(c)}cats[c].push(s)});
+  var h='<h1>عملية جديدة</h1>'+(ME.mode==="Sandbox"?'<div class="sandbox">وضع تجريبي</div>':'')+'<div class="card"><h2>الخدمة</h2>';
+  order.forEach(function(c){h+='<div class="mute" style="margin:8px 0 4px">'+esc(c)+'</div><div class="chips">';cats[c].forEach(function(s){h+='<button class="chip'+(FORM.svc===s.name?" on":"")+'" data-s="'+esc(s.name)+'">'+esc(s.service_name)+'</button>'});h+='</div>'});
+  h+='</div><div class="card" id="nf"></div>';
+  setView(h);
+  [].forEach.call(document.querySelectorAll("#app .chip"),function(b){b.onclick=function(){FORM.svc=b.getAttribute("data-s");vNew()}});
+  if(FORM.svc)drawForm()}
+ function drawForm(){
+  var s=findSvc(FORM.svc);if(!s)return;
+  var h='<label>المبلغ</label><input id="n-am" type="number" inputmode="decimal" min="0" value="'+esc(FORM.amount)+'">'+
+   '<div class="mute">من '+money(s.min_amount)+' إلى '+money(s.max_amount)+'</div>'+
+   '<label>'+esc(s.reference_label||"المرجع / رقم العميل")+(s.requires_reference?"":" (اختياري)")+'</label><input id="n-ref" class="ltr" value="'+esc(FORM.ref)+'" autocomplete="off">'+
+   '<div id="n-q" class="mute" style="margin:8px 0"></div>'+
+   '<label>الرقم السري</label><input id="n-pin" type="password" inputmode="numeric" autocomplete="off" maxlength="8">'+
+   '<div id="n-msg"></div><button class="btn" id="n-go">متابعة</button>';
+  $("nf").innerHTML=h;
+  $("n-am").oninput=function(){FORM.amount=this.value;quote()};
+  $("n-ref").oninput=function(){FORM.ref=this.value};
+  $("n-go").onclick=confirmStep;quote()}
+ function quote(){
+  var s=findSvc(FORM.svc),a=parseFloat(FORM.amount),q=$("n-q");clearTimeout(QT);if(!q)return;
+  if(!s||!(a>0)){q.textContent="";return}
+  q.textContent="جاري حساب الرسوم...";
+  QT=setTimeout(function(){call("quote",{service_name:FORM.svc,amount:a}).then(function(r){
+    if(!$("n-q")||FORM.svc!==s.name||parseFloat(FORM.amount)!==a)return;
+    $("n-q").innerHTML='الرسوم: <b>'+m2(r.fee)+'</b> — الإجمالي: <b>'+m2(r.total)+'</b>'}).catch(function(e){if($("n-q"))$("n-q").innerHTML='<span class="neg">'+esc(e.message)+'</span>'})},400)}
+ function confirmStep(){
+  var s=findSvc(FORM.svc),a=parseFloat(FORM.amount),pin=$("n-pin").value;
+  if(!s)return notice("n-msg","اختر الخدمة","err");
+  if(!(a>0))return notice("n-msg","أدخل المبلغ","err");
+  if(s.requires_reference&&!FORM.ref.trim())return notice("n-msg","أدخل "+(s.reference_label||"المرجع"),"err");
+  if(!pin)return notice("n-msg","أدخل الرقم السري","err");
+  var b=$("n-go");b.disabled=true;
+  call("quote",{service_name:FORM.svc,amount:a}).then(function(r){
+   setView(backBtn()+'<h1>تأكيد العملية</h1><div class="card"><table class="sum">'+
+    '<tr><td>الخدمة</td><td><b>'+esc(s.service_name)+'</b></td></tr>'+
+    '<tr><td>'+esc(s.reference_label||"المرجع")+'</td><td class="ltr">'+esc(FORM.ref||"-")+'</td></tr>'+
+    '<tr><td>المبلغ</td><td>'+m2(r.amount)+'</td></tr><tr><td>الرسوم</td><td>'+m2(r.fee)+'</td></tr>'+
+    '<tr><td>الإجمالي المطلوب تحصيله</td><td><b>'+m2(r.total)+'</b></td></tr></table><div id="c-msg"></div>'+
+    '<button class="btn" id="c-go">تأكيد وإرسال</button><button class="btn alt" id="c-no">تعديل</button></div>');
+   $("bk").onclick=$("c-no").onclick=function(){vNew();var p=$("n-pin");if(p)p.value=pin};
+   $("c-go").onclick=function(){send(s,r,pin)}
+  }).catch(function(e){b.disabled=false;notice("n-msg",e.message,"err")})}
+ function send(s,r,pin){
+  if(SENDING)return;SENDING=true;var b=$("c-go");b.disabled=true;$("c-no").disabled=true;notice("c-msg","جاري الإرسال...","warn");
+  call("execute",{service_name:FORM.svc,amount:r.amount,customer_reference:FORM.ref||"",pin:pin,idempotency_key:FORM.key,device_id:DEV},true).then(function(t){
+   SENDING=false;resultView(t,true)
+  }).catch(function(e){
+   SENDING=false;
+   if(e.server)FORM.key=uuid(); /* rejected: nothing was created, a new attempt gets a new key */
+   $("c-go").disabled=false;$("c-no").disabled=false;
+   notice("c-msg",e.net?e.message+" يمكنك إعادة المحاولة بأمان دون تكرار الخصم.":e.message,"err")})}
+ function isFinal(t){return t.status==="Success"||t.status==="Failed"}
+ function resetForm(){FORM={svc:null,amount:"",ref:"",key:null}}
+ function resultView(t,fresh){
+  var h="",cls,ttl;
+  if(t.status==="Success"){cls="ok";ttl="تمت العملية بنجاح"}
+  else if(t.status==="Failed"){cls="err";ttl="فشلت العملية"}
+  else if(t.status==="Pending"&&t.approval_request){cls="warn";ttl="بانتظار موافقة المشرف"}
+  else{cls="warn";ttl="قيد المعالجة..."}
+  h+='<div class="msg big '+cls+'"><b>'+(cls==="ok"?"✓":cls==="err"?"✕":"⏳")+'</b>'+esc(ttl)+'</div>';
+  h+='<div class="card"><table class="sum"><tr><td>رقم العملية</td><td class="ltr">'+esc(t.name)+'</td></tr><tr><td>المبلغ</td><td>'+m2(t.amount)+'</td></tr><tr><td>الرسوم</td><td>'+m2(t.fee)+'</td></tr><tr><td>الإجمالي</td><td><b>'+m2(t.total_collected)+'</b></td></tr>'+
+   (t.provider_ref?'<tr><td>مرجع المزود</td><td class="ltr">'+esc(t.provider_ref)+'</td></tr>':'')+
+   (t.failure_reason?'<tr><td>السبب</td><td class="neg">'+esc(t.failure_reason)+'</td></tr>':'')+'</table></div>';
+  if(!isFinal(t)&&!(t.status==="Pending"&&t.approval_request))h+='<div class="mute">لا تغلق الصفحة، يتم التحقق من الحالة تلقائياً.</div>';
+  h+='<div id="r-msg"></div><button class="btn" id="r-done">'+(isFinal(t)?"تم":"عودة")+'</button>';
+  setView(h);
+  $("r-done").onclick=function(){if(isFinal(t))resetForm();goTab("home");load()};
+  if(isFinal(t)){resetForm();load();return}
+  if(fresh)DEADLINE=Date.now()+120000;
+  poll(t.name)}
+ var DEADLINE=0;
+ function poll(name){
+  POLL=setTimeout(function(){
+   call("transaction",{name:name}).then(function(t){
+    if(!$("r-done"))return;
+    if(isFinal(t)||(t.status==="Pending"&&t.approval_request)){resultView(t,false);return}
+    if(Date.now()>DEADLINE){notice("r-msg","ما زالت العملية قيد المعالجة. راجع السجل لاحقاً لمعرفة النتيجة.","warn");return}
+    poll(name)
+   }).catch(function(e){
+    if(!$("r-done"))return;
+    if(Date.now()>DEADLINE){notice("r-msg",e.message,"err");return}
+    poll(name)})},3000)}
+
+ /* ---------- history ---------- */
+ function vHist(){
+  if(DETAIL){vDetail(DETAIL);return}
+  setView('<h1>السجل</h1><div id="hl" class="mute">جاري التحميل...</div>');
+  call("history",{limit:50}).then(function(rows){
+   if(TAB!=="hist"||DETAIL)return;
+   var h='<div class="card">';if(!rows.length)h+='<div class="mute">لا توجد عمليات</div>';
+   rows.forEach(function(r,i){h+='<div class="item" data-i="'+i+'"><div><b>'+esc(r.service||r.kind||"")+'</b><div class="mute ltr">'+esc(r.customer_reference||"")+' '+esc(r.creation||"")+'</div></div><div style="text-align:left"><div>'+money(r.amount)+'</div>'+statusPill(r)+'</div></div>'});
+   $("hl").innerHTML=h+'</div>';
+   [].forEach.call(document.querySelectorAll("#hl .item"),function(e){e.onclick=function(){DETAIL=rows[+e.getAttribute("data-i")];vDetail(DETAIL)}})
+  }).catch(function(e){$("hl").innerHTML='<div class="msg err">'+esc(e.message)+'</div><button class="btn alt" id="rt">إعادة المحاولة</button>';$("rt").onclick=vHist})}
+ function vDetail(r){
+  setView(backBtn()+'<h1>تفاصيل العملية</h1><div class="card"><div style="margin-bottom:6px">'+statusPill(r)+'</div><table class="sum"><tr><td>رقم العملية</td><td class="ltr">'+esc(r.name)+'</td></tr><tr><td>الخدمة</td><td>'+esc(r.service||r.kind||"")+'</td></tr>'+
+   '<tr><td>المرجع</td><td class="ltr">'+esc(r.customer_reference||"-")+'</td></tr><tr><td>المبلغ</td><td>'+m2(r.amount)+'</td></tr><tr><td>الرسوم</td><td>'+m2(r.fee)+'</td></tr><tr><td>الإجمالي</td><td>'+m2(r.total_collected)+'</td></tr><tr><td>التاريخ</td><td class="ltr">'+esc(r.creation||"")+'</td></tr>'+
+   (r.failure_reason?'<tr><td>السبب</td><td class="neg">'+esc(r.failure_reason)+'</td></tr>':'')+'</table></div>'+
+   (r.status==="Success"?'<div class="card"><label>سبب طلب الاسترجاع</label><textarea id="rv-r" rows="2"></textarea><div id="rv-m"></div><button class="btn bad" id="rv-go">طلب استرجاع</button></div>':'<div id="rv-m"></div>'));
+  $("bk").onclick=function(){DETAIL=null;vHist()};
+  var g=$("rv-go");if(g)g.onclick=function(){
+   var why=$("rv-r").value.trim();if(!why)return notice("rv-m","اكتب سبب الاسترجاع","err");
+   g.disabled=true;
+   call("request_reversal",{name:r.name,reason:why},true).then(function(n){notice("rv-m","تم إرسال طلب الاسترجاع"+(n?" ("+n+")":"")+" وبانتظار موافقة المشرف","ok")}).catch(function(e){g.disabled=false;notice("rv-m",e.message,"err")})}}
+
+ /* ---------- cash ---------- */
+ function vCash(){
+  var cu=Number(ME.custody)||0,cm=Number(ME.commission)||0;
+  setView('<h1>النقدية</h1><div class="card"><div class="mute">النقدية بحوزتي</div><b style="font-size:20px">'+m2(cu)+'</b>'+
+   '<label>المبلغ المستحق</label><input id="k-a" type="number" inputmode="decimal" min="0" value="'+(cu>0?cu:"")+'">'+
+   '<label>العمولة المخصومة (اختياري)</label><input id="k-o" type="number" inputmode="decimal" min="0" value="0">'+
+   '<label>المبلغ المسلَّم</label><input id="k-h" type="number" inputmode="decimal" min="0" value="'+(cu>0?cu:"")+'">'+
+   '<div id="k-d" class="mute" style="margin:6px 0"></div><label>ملاحظات</label><textarea id="k-n" rows="2"></textarea><div id="k-m"></div>'+
+   '<button class="btn" id="k-go">إرسال التسليم</button><div class="mute">يؤكد المشرف الاستلام بعد التسليم. عمولتك الحالية: '+m2(cm)+'</div></div>'+
+   '<div class="card"><h2>تسليماتي</h2><div id="k-l" class="mute">جاري التحميل...</div></div>');
+  var edited=false;
+  function num(i){return parseFloat($(i).value)||0}
+  function diff(){var d=num("k-h")-(num("k-a")-num("k-o"));$("k-d").innerHTML='الفرق: <b class="'+(Math.abs(d)>0.005?"neg":"")+'">'+m2(d)+'</b>'}
+  function auto(){if(!edited)$("k-h").value=Math.max(0,num("k-a")-num("k-o"));diff()}
+  $("k-a").oninput=auto;$("k-o").oninput=auto;$("k-h").oninput=function(){edited=true;diff()};
+  auto();
+  $("k-go").onclick=function(){
+   var a=num("k-a"),o=num("k-o"),hd=num("k-h");
+   if(a<=0)return notice("k-m","أدخل المبلغ","err");
+   if(o<0||hd<0)return notice("k-m","قيمة غير صحيحة","err");
+   var b=$("k-go");b.disabled=true;
+   call("handover",{amount:a,commission_offset:o,amount_handed:hd,notes:$("k-n").value},true).then(function(r){
+    notice("k-m","تم تسجيل التسليم "+r.name+" (الفرق "+money(r.difference)+") وبانتظار تأكيد المشرف","ok");load2()
+   }).catch(function(e){b.disabled=false;notice("k-m",e.message,e.net?"warn":"err")})};
+  function load2(){call("my_settlements").then(function(rows){
+   if(TAB!=="cash"||!$("k-l"))return;
+   if(!rows.length){$("k-l").textContent="لا توجد تسليمات";return}
+   var h="";rows.forEach(function(r){h+='<div class="item" style="cursor:default"><div><b>'+m2(r.amount_handed)+'</b> <span class="mute">'+esc(r.settlement_date||"")+'</span><div class="mute">المستحق '+money(r.amount_due)+' — عمولة '+money(r.commission_offset)+' — فرق <span class="'+(Math.abs(r.difference)>0.005?"neg":"")+'">'+money(r.difference)+'</span></div></div>'+pill(SS,r.docstatus)+'</div>'});
+   $("k-l").innerHTML=h}).catch(function(e){if($("k-l"))$("k-l").innerHTML='<div class="msg err">'+esc(e.message)+'</div>'})}
+  load2()}
+
+ /* ---------- settings ---------- */
+ function vSet(){
+  setView('<h1>الإعدادات</h1><div class="card"><h2>'+(ME.pin_set?"تغيير الرقم السري":"ضبط الرقم السري")+'</h2>'+
+   (ME.pin_set?'<label>الرقم السري الحالي</label><input id="s-o" type="password" inputmode="numeric" autocomplete="off">':'')+
+   '<label>الرقم السري الجديد</label><input id="s-n" type="password" inputmode="numeric" autocomplete="off">'+
+   '<label>تأكيد الرقم الجديد</label><input id="s-c" type="password" inputmode="numeric" autocomplete="off"><div id="s-m"></div>'+
+   '<button class="btn" id="s-go">حفظ</button></div>'+
+   '<div class="card"><h2>الجهاز</h2><div class="mute">معرّف الجهاز</div><div class="ltr" style="word-break:break-all;font-size:13px">'+esc(DEV)+'</div></div>'+
+   '<button class="btn alt" id="s-out">تسجيل الخروج</button>');
+  $("s-go").onclick=function(){
+   var n=$("s-n").value,c=$("s-c").value,o=$("s-o")?$("s-o").value:null;
+   if(!/^\d{4,8}$/.test(n))return notice("s-m","الرقم السري من 4 إلى 8 أرقام","err");
+   if(n!==c)return notice("s-m","تأكيد الرقم غير مطابق","err");
+   if(ME.pin_set&&!o)return notice("s-m","أدخل الرقم السري الحالي","err");
+   var b=$("s-go");b.disabled=true;
+   call("change_pin",{new_pin:n,old_pin:o},true).then(function(){notice("s-m","تم حفظ الرقم السري","ok");b.disabled=false;$("s-n").value=$("s-c").value="";if($("s-o"))$("s-o").value="";if(!ME.pin_set){ME.pin_set=1;load()}})
+    .catch(function(e){b.disabled=false;notice("s-m",e.message,"err")})};
+  $("s-out").onclick=function(){fetch("/api/method/logout",{method:"POST",credentials:"same-origin",headers:{"X-Frappe-CSRF-Token":CSRF}}).then(function(){location.href="/login"},function(){location.href="/?cmd=web_logout"})}}
+
+ load();
+})();
+</script>
+{% endblock %}

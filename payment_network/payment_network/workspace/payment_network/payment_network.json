@@ -1,0 +1,169 @@
+{
+ "charts": [
+  {
+   "chart_name": "Payments per Month",
+   "label": "Payments per Month"
+  },
+  {
+   "chart_name": "Transactions by Status",
+   "label": "Transactions by Status"
+  }
+ ],
+ "content": "[{\"id\": \"c100e3c14b\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Payment Network</b></span>\", \"col\": 12}}, {\"id\": \"582765b69c\", \"type\": \"chart\", \"data\": {\"chart_name\": \"Payments per Month\", \"col\": 6}}, {\"id\": \"a6ca30da9f\", \"type\": \"chart\", \"data\": {\"chart_name\": \"Transactions by Status\", \"col\": 6}}, {\"id\": \"069cf52385\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Transactions Today\", \"col\": 3}}, {\"id\": \"8fcbefa171\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Successful Amount Today\", \"col\": 3}}, {\"id\": \"b2cfe5db41\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Processing Transactions\", \"col\": 3}}, {\"id\": \"4f2a1513f3\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Pending Approvals\", \"col\": 3}}, {\"id\": \"dba123c0a1\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Agent Screen\", \"col\": 3}}, {\"id\": \"8ff10db8ea\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Payment Transaction\", \"col\": 3}}, {\"id\": \"df2ad547f1\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Payment Agent Profile\", \"col\": 3}}, {\"id\": \"aeebb5dd24\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Agent Wallet\", \"col\": 3}}, {\"id\": \"9ad11fd5c6\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Wallet Charge\", \"col\": 3}}, {\"id\": \"465f2376e6\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Cash Settlement\", \"col\": 3}}, {\"id\": \"9fcfda6083\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Payment Approval Request\", \"col\": 3}}, {\"id\": \"949b8a9f91\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Wallet Ledger Entry\", \"col\": 3}}, {\"id\": \"03663fffe5\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Payment Service\", \"col\": 3}}, {\"id\": \"4e431061bc\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Commission Rule\", \"col\": 3}}, {\"id\": \"cdb33fe064\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Payment Audit Log\", \"col\": 3}}, {\"id\": \"cefc1a377a\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Payment Settings\", \"col\": 3}}, {\"id\": \"53ef35b4af\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Transactions Today\", \"col\": 3}}, {\"id\": \"e1bdd7e090\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Wallet Balances\", \"col\": 3}}, {\"id\": \"b46e22c740\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Open Custody\", \"col\": 3}}, {\"id\": \"fb67263e09\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Commissions Due\", \"col\": 3}}, {\"id\": \"289dd7c19e\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Failed and Pending Transactions\", \"col\": 3}}, {\"id\": \"388ade1203\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Settlement Differences\", \"col\": 3}}, {\"id\": \"2c7dd6f742\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Agent and Supervisor Performance\", \"col\": 3}}]",
+ "creation": "2026-11-15 17:04:02.107567",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 1,
+ "icon": "credit-card",
+ "idx": 1,
+ "is_hidden": 0,
+ "label": "Payment Network",
+ "links": [],
+ "modified": "2026-11-15 17:04:02.107567",
+ "modified_by": "Administrator",
+ "module": "Payment Network",
+ "name": "Payment Network",
+ "number_cards": [
+  {
+   "label": "Transactions Today",
+   "number_card_name": "Transactions Today"
+  },
+  {
+   "label": "Successful Amount Today",
+   "number_card_name": "Successful Amount Today"
+  },
+  {
+   "label": "Processing Transactions",
+   "number_card_name": "Processing Transactions"
+  },
+  {
+   "label": "Pending Approvals",
+   "number_card_name": "Pending Approvals"
+  }
+ ],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 20.0,
+ "shortcuts": [
+  {
+   "label": "Agent Screen",
+   "type": "URL",
+   "url": "/agent-pay"
+  },
+  {
+   "doc_view": "List",
+   "label": "Payment Transaction",
+   "link_to": "Payment Transaction",
+   "type": "DocType"
+  },
+  {
+   "doc_view": "List",
+   "label": "Payment Agent Profile",
+   "link_to": "Payment Agent Profile",
+   "type": "DocType"
+  },
+  {
+   "doc_view": "List",
+   "label": "Agent Wallet",
+   "link_to": "Agent Wallet",
+   "type": "DocType"
+  },
+  {
+   "doc_view": "List",
+   "label": "Wallet Charge",
+   "link_to": "Wallet Charge",
+   "type": "DocType"
+  },
+  {
+   "doc_view": "List",
+   "label": "Cash Settlement",
+   "link_to": "Cash Settlement",
+   "type": "DocType"
+  },
+  {
+   "doc_view": "List",
+   "label": "Payment Approval Request",
+   "link_to": "Payment Approval Request",
+   "type": "DocType"
+  },
+  {
+   "doc_view": "List",
+   "label": "Wallet Ledger Entry",
+   "link_to": "Wallet Ledger Entry",
+   "type": "DocType"
+  },
+  {
+   "doc_view": "List",
+   "label": "Payment Service",
+   "link_to": "Payment Service",
+   "type": "DocType"
+  },
+  {
+   "doc_view": "List",
+   "label": "Commission Rule",
+   "link_to": "Commission Rule",
+   "type": "DocType"
+  },
+  {
+   "doc_view": "List",
+   "label": "Payment Audit Log",
+   "link_to": "Payment Audit Log",
+   "type": "DocType"
+  },
+  {
+   "doc_view": "List",
+   "label": "Payment Settings",
+   "link_to": "Payment Settings",
+   "type": "DocType"
+  },
+  {
+   "label": "Transactions Today",
+   "link_to": "Transactions Today",
+   "report_ref_doctype": "Payment Transaction",
+   "type": "Report"
+  },
+  {
+   "label": "Wallet Balances",
+   "link_to": "Wallet Balances",
+   "report_ref_doctype": "Agent Wallet",
+   "type": "Report"
+  },
+  {
+   "label": "Open Custody",
+   "link_to": "Open Custody",
+   "report_ref_doctype": "Agent Wallet",
+   "type": "Report"
+  },
+  {
+   "label": "Commissions Due",
+   "link_to": "Commissions Due",
+   "report_ref_doctype": "Agent Wallet",
+   "type": "Report"
+  },
+  {
+   "label": "Failed and Pending Transactions",
+   "link_to": "Failed and Pending Transactions",
+   "report_ref_doctype": "Payment Transaction",
+   "type": "Report"
+  },
+  {
+   "label": "Settlement Differences",
+   "link_to": "Settlement Differences",
+   "report_ref_doctype": "Cash Settlement",
+   "type": "Report"
+  },
+  {
+   "label": "Agent and Supervisor Performance",
+   "link_to": "Agent and Supervisor Performance",
+   "report_ref_doctype": "Payment Transaction",
+   "type": "Report"
+  }
+ ],
+ "title": "Payment Network",
+ "type": "Workspace"
+}

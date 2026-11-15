@@ -1,0 +1,215 @@
+{
+ "actions": [],
+ "creation": "2026-11-15 17:04:02.048680",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "stage",
+  "settlement_date",
+  "company",
+  "column_break_1",
+  "from_profile",
+  "to_profile",
+  "section_break_1",
+  "custody_before",
+  "amount_due",
+  "column_break_2",
+  "commission_offset",
+  "amount_handed",
+  "difference",
+  "notes",
+  "section_break_2",
+  "confirmed_by",
+  "journal_entry",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "stage",
+   "fieldtype": "Select",
+   "label": "Stage",
+   "options": "Agent to Supervisor\nSupervisor to Manager",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "settlement_date",
+   "fieldtype": "Date",
+   "label": "Date",
+   "default": "Today",
+   "reqd": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "from_profile",
+   "fieldtype": "Link",
+   "label": "Handed By",
+   "options": "Payment Agent Profile",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "to_profile",
+   "fieldtype": "Link",
+   "label": "Received By",
+   "options": "Payment Agent Profile",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "section_break_1",
+   "fieldtype": "Section Break",
+   "label": "Amounts"
+  },
+  {
+   "fieldname": "custody_before",
+   "fieldtype": "Currency",
+   "label": "Cash Held Before",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "amount_due",
+   "fieldtype": "Currency",
+   "label": "Cash Being Settled",
+   "reqd": 1,
+   "in_list_view": 1,
+   "description": "The part of the cash held that this settlement clears."
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "commission_offset",
+   "fieldtype": "Currency",
+   "label": "Commission Deducted",
+   "description": "Earned commission the sender keeps from the cash instead of being paid later."
+  },
+  {
+   "fieldname": "amount_handed",
+   "fieldtype": "Currency",
+   "label": "Cash Actually Handed",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "difference",
+   "fieldtype": "Currency",
+   "label": "Difference (shortage +, excess -)",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "section_break_2",
+   "fieldtype": "Section Break",
+   "label": "Confirmation"
+  },
+  {
+   "fieldname": "confirmed_by",
+   "fieldtype": "Link",
+   "label": "Confirmed By",
+   "options": "User",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "journal_entry",
+   "fieldtype": "Link",
+   "label": "Journal Entry",
+   "options": "Journal Entry",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "options": "Cash Settlement",
+   "read_only": 1,
+   "no_copy": 1,
+   "print_hide": 1
+  }
+ ],
+ "links": [],
+ "modified": "2026-11-15 17:04:02.048680",
+ "modified_by": "Administrator",
+ "module": "Payment Network",
+ "name": "Cash Settlement",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "role": "Payment Manager",
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "role": "System Manager",
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Payment Supervisor",
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Payment Agent",
+   "write": 1
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Payment Auditor"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "autoname": "format:CSE-{#####}",
+ "icon": "fa fa-handshake-o",
+ "track_changes": 1,
+ "allow_import": 1,
+ "allow_rename": 0,
+ "show_title_field_in_link": 0,
+ "is_submittable": 1
+}

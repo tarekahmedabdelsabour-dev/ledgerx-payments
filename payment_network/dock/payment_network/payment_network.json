@@ -1,0 +1,22 @@
+{
+ "app": "payment_network",
+ "creation": "2026-11-15 17:04:02.107567",
+ "docstatus": 0,
+ "doctype": "Dock",
+ "idx": 0,
+ "items": [
+  {
+   "added": 0,
+   "hidden": 0,
+   "icon": "payment-network-soft",
+   "link_to": "Payment Network",
+   "link_type": "Sidebar",
+   "title": "Payment Network"
+  }
+ ],
+ "modified": "2026-11-15 17:04:02.107567",
+ "modified_by": "Administrator",
+ "name": "payment_network",
+ "owner": "Administrator",
+ "standard": 1
+}

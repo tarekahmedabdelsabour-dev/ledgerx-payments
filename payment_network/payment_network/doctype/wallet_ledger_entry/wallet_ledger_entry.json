@@ -1,0 +1,167 @@
+{
+ "actions": [],
+ "creation": "2026-11-15 17:04:02.048680",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "wallet",
+  "agent",
+  "bucket",
+  "direction",
+  "amount",
+  "balance_after",
+  "section_break_1",
+  "posting_datetime",
+  "reference_doctype",
+  "reference_name",
+  "column_break_1",
+  "group_id",
+  "remarks"
+ ],
+ "fields": [
+  {
+   "fieldname": "wallet",
+   "fieldtype": "Link",
+   "label": "Wallet",
+   "options": "Agent Wallet",
+   "reqd": 1,
+   "read_only": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "agent",
+   "fieldtype": "Link",
+   "label": "Agent Profile",
+   "options": "Payment Agent Profile",
+   "read_only": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "bucket",
+   "fieldtype": "Select",
+   "label": "Balance Type",
+   "options": "Available\nCommission\nCash Held",
+   "read_only": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "direction",
+   "fieldtype": "Select",
+   "label": "Direction",
+   "options": "Debit\nCredit",
+   "read_only": 1,
+   "in_list_view": 1,
+   "description": "Credit adds to the balance, Debit subtracts from it."
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "label": "Amount",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "balance_after",
+   "fieldtype": "Currency",
+   "label": "Balance After",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "section_break_1",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "posting_datetime",
+   "fieldtype": "Datetime",
+   "label": "Posted On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reference_doctype",
+   "fieldtype": "Link",
+   "label": "Reference Type",
+   "options": "DocType",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reference_name",
+   "fieldtype": "Dynamic Link",
+   "label": "Reference",
+   "options": "reference_doctype",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "group_id",
+   "fieldtype": "Data",
+   "label": "Entry Group",
+   "read_only": 1,
+   "search_index": 1,
+   "description": "The two opposite entries of one transfer share this."
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks",
+   "read_only": 1
+  }
+ ],
+ "links": [],
+ "modified": "2026-11-15 17:04:02.048680",
+ "modified_by": "Administrator",
+ "module": "Payment Network",
+ "name": "Wallet Ledger Entry",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Payment Manager"
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager"
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Payment Supervisor"
+  },
+  {
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Payment Agent"
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Payment Auditor"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "autoname": "format:WLE-{########}",
+ "icon": "fa fa-book",
+ "track_changes": 0,
+ "allow_import": 0,
+ "allow_rename": 0,
+ "show_title_field_in_link": 0,
+ "allow_copy": 0
+}

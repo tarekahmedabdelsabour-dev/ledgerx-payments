@@ -1,0 +1,165 @@
+{
+ "actions": [],
+ "creation": "2026-11-15 17:04:02.048680",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "service_name",
+  "category",
+  "enabled",
+  "provider_code",
+  "column_break_1",
+  "commission_rule",
+  "requires_reference",
+  "reference_label",
+  "section_break_1",
+  "min_amount",
+  "max_amount",
+  "column_break_2",
+  "fee_fixed",
+  "fee_percent",
+  "description"
+ ],
+ "fields": [
+  {
+   "fieldname": "service_name",
+   "fieldtype": "Data",
+   "label": "Service Name",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "category",
+   "fieldtype": "Select",
+   "label": "Category",
+   "options": "Bill Payment\nMobile Top-up\nVoucher\nOther",
+   "default": "Bill Payment",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled",
+   "default": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "provider_code",
+   "fieldtype": "Data",
+   "label": "Provider Service Code",
+   "description": "The code the provider uses for this service."
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "commission_rule",
+   "fieldtype": "Link",
+   "label": "Commission Rule",
+   "options": "Commission Rule"
+  },
+  {
+   "fieldname": "requires_reference",
+   "fieldtype": "Check",
+   "label": "Customer Reference Required",
+   "default": 1
+  },
+  {
+   "fieldname": "reference_label",
+   "fieldtype": "Data",
+   "label": "Reference Label",
+   "default": "Mobile or Account Number"
+  },
+  {
+   "fieldname": "section_break_1",
+   "fieldtype": "Section Break",
+   "label": "Amounts and Fees"
+  },
+  {
+   "fieldname": "min_amount",
+   "fieldtype": "Currency",
+   "label": "Minimum Amount"
+  },
+  {
+   "fieldname": "max_amount",
+   "fieldtype": "Currency",
+   "label": "Maximum Amount",
+   "description": "0 = no maximum."
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "fee_fixed",
+   "fieldtype": "Currency",
+   "label": "Fixed Fee Charged to Customer"
+  },
+  {
+   "fieldname": "fee_percent",
+   "fieldtype": "Percent",
+   "label": "Fee % Charged to Customer"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  }
+ ],
+ "links": [],
+ "modified": "2026-11-15 17:04:02.048680",
+ "modified_by": "Administrator",
+ "module": "Payment Network",
+ "name": "Payment Service",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "role": "Payment Manager",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "role": "System Manager",
+   "write": 1
+  },
+  {
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Payment Supervisor"
+  },
+  {
+   "read": 1,
+   "role": "Payment Agent"
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Payment Auditor"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "autoname": "field:service_name",
+ "title_field": "service_name",
+ "icon": "fa fa-plug",
+ "track_changes": 1,
+ "allow_import": 1,
+ "allow_rename": 0,
+ "show_title_field_in_link": 1
+}

@@ -1,0 +1,173 @@
+{
+ "actions": [],
+ "creation": "2026-11-15 17:04:02.048680",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "charge_type",
+  "posting_date",
+  "company",
+  "column_break_1",
+  "amount",
+  "remarks",
+  "section_break_1",
+  "from_profile",
+  "to_profile",
+  "column_break_2",
+  "funding_account",
+  "journal_entry",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "charge_type",
+   "fieldtype": "Select",
+   "label": "Type",
+   "options": "Transfer\nCompany Funding",
+   "default": "Transfer",
+   "reqd": 1,
+   "in_list_view": 1,
+   "description": "Company Funding adds money from the company's bank or cash to a manager's wallet. Transfer moves balance down the chain manager > supervisor > agent (or back up)."
+  },
+  {
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "label": "Date",
+   "default": "Today",
+   "reqd": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "label": "Amount",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "section_break_1",
+   "fieldtype": "Section Break",
+   "label": "Wallets"
+  },
+  {
+   "fieldname": "from_profile",
+   "fieldtype": "Link",
+   "label": "From",
+   "options": "Payment Agent Profile",
+   "depends_on": "eval:doc.charge_type=='Transfer'",
+   "mandatory_depends_on": "eval:doc.charge_type=='Transfer'",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "to_profile",
+   "fieldtype": "Link",
+   "label": "To",
+   "options": "Payment Agent Profile",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "funding_account",
+   "fieldtype": "Link",
+   "label": "Paid From (bank or cash account)",
+   "options": "Account",
+   "depends_on": "eval:doc.charge_type=='Company Funding'",
+   "mandatory_depends_on": "eval:doc.charge_type=='Company Funding'"
+  },
+  {
+   "fieldname": "journal_entry",
+   "fieldtype": "Link",
+   "label": "Journal Entry",
+   "options": "Journal Entry",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "options": "Wallet Charge",
+   "read_only": 1,
+   "no_copy": 1,
+   "print_hide": 1
+  }
+ ],
+ "links": [],
+ "modified": "2026-11-15 17:04:02.048680",
+ "modified_by": "Administrator",
+ "module": "Payment Network",
+ "name": "Wallet Charge",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "role": "Payment Manager",
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "role": "System Manager",
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Payment Supervisor",
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Payment Agent"
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Payment Auditor"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "autoname": "format:WCH-{#####}",
+ "icon": "fa fa-plus-circle",
+ "track_changes": 1,
+ "allow_import": 1,
+ "allow_rename": 0,
+ "show_title_field_in_link": 0,
+ "is_submittable": 1
+}
