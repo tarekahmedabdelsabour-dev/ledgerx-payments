@@ -385,3 +385,4 @@ no maximum,بلا حد أقصى
 {0} is required,{0} مطلوب
 {0} must belong to {1},يجب أن ينتمي {0} إلى {1}
 {0} must not be a group account,يجب ألا يكون {0} حساب مجموعة
+"Your profile is registered as {0}. The agent screen is for agents only: create a separate user and profile with role type Agent for field work, and use the desk to supervise.",حسابك مسجّل بدور {0}. شاشة المندوب للمناديب فقط: أنشئ مستخدمًا وملفًا مستقلًا بدور مندوب للعمل الميداني، واستخدم المكتب للإشراف.

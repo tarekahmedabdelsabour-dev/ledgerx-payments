@@ -29,8 +29,10 @@ def settings():
 def agent_profile(user=None):
 	user = user or frappe.session.user
 	p = frappe.db.get_value("Payment Agent Profile", {"user": user}, "*", as_dict=True)
-	if not p or p.role_type != "Agent":
+	if not p:
 		frappe.throw(_("Your user is not registered as a payment agent"), frappe.PermissionError)
+	if p.role_type != "Agent":
+		frappe.throw(_("Your profile is registered as {0}. The agent screen is for agents only: create a separate user and profile with role type Agent for field work, and use the desk to supervise.").format(_(p.role_type)), frappe.PermissionError)
 	if p.status != "Active":
 		frappe.throw(_("Your account is suspended. Contact your supervisor."), frappe.PermissionError)
 	return p
