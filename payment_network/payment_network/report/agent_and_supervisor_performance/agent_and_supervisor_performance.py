@@ -25,19 +25,19 @@ def execute(filters=None):
 		)
 		return {r.get(group_field): r for r in rows}
 
-	totals = aggregate([], ["count(name) as cnt"])
+	totals = aggregate([], [{"COUNT": "name", "as": "cnt"}])
 	success = aggregate(
 		[["status", "=", "Success"]],
 		[
-			"count(name) as cnt",
-			"sum(amount) as amount",
-			"sum(fee) as fee",
-			"sum(agent_commission) as agent_commission",
-			"sum(supervisor_commission) as supervisor_commission",
-			"sum(company_commission) as company_commission",
+			{"COUNT": "name", "as": "cnt"},
+			{"SUM": "amount", "as": "amount"},
+			{"SUM": "fee", "as": "fee"},
+			{"SUM": "agent_commission", "as": "agent_commission"},
+			{"SUM": "supervisor_commission", "as": "supervisor_commission"},
+			{"SUM": "company_commission", "as": "company_commission"},
 		],
 	)
-	failed = aggregate([["status", "=", "Failed"]], ["count(name) as cnt"])
+	failed = aggregate([["status", "=", "Failed"]], [{"COUNT": "name", "as": "cnt"}])
 
 	names = {}
 	keys = [k for k in totals if k]

@@ -33,7 +33,7 @@ def execute(filters=None):
 				["posting_datetime", ">=", from_date],
 				["posting_datetime", "<", add_days(to_date, 1)],
 			],
-			fields=["wallet", "sum(amount) as total"],
+			fields=["wallet", {"SUM": "amount", "as": "total"}],
 			group_by="wallet",
 			order_by="wallet",
 			limit_page_length=0,

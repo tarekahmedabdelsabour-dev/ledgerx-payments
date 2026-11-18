@@ -44,7 +44,7 @@ def execute(filters=None):
 		for s in frappe.get_list(
 			"Cash Settlement",
 			filters={"docstatus": 1, "from_profile": ["in", profile_names]},
-			fields=["from_profile", "max(settlement_date) as last_date"],
+			fields=["from_profile", {"MAX": "settlement_date", "as": "last_date"}],
 			group_by="from_profile",
 			order_by="from_profile",
 			limit_page_length=0,
