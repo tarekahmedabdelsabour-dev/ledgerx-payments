@@ -1,6 +1,6 @@
 {
  "actions": [],
- "creation": "2026-11-25 16:32:23.495683",
+ "creation": "2026-11-25 20:53:57.070886",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
@@ -27,7 +27,8 @@
    "reqd": 1,
    "read_only": 1,
    "in_list_view": 1,
-   "in_standard_filter": 1
+   "in_standard_filter": 1,
+   "search_index": 1
   },
   {
    "fieldname": "agent",
@@ -35,7 +36,8 @@
    "label": "Agent Profile",
    "options": "Payment Agent Profile",
    "read_only": 1,
-   "in_standard_filter": 1
+   "in_standard_filter": 1,
+   "search_index": 1
   },
   {
    "fieldname": "bucket",
@@ -113,7 +115,7 @@
   }
  ],
  "links": [],
- "modified": "2026-11-25 16:32:23.495683",
+ "modified": "2026-11-25 20:53:57.070886",
  "modified_by": "Administrator",
  "module": "Payment Network",
  "name": "Wallet Ledger Entry",
