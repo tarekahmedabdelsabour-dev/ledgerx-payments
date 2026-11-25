@@ -35,12 +35,17 @@ class CashSettlement(Document):
 			frappe.throw(_("The deducted commission cannot be more than the earned commission ({0}) or the cash settled").format(flt(w.get("commission_balance"))))
 		if self.amount_handed < 0:
 			frappe.throw(_("Cash Actually Handed cannot be negative"))
+		if self.amount_handed > self.amount_due - self.commission_offset + 0.005:
+			frappe.throw(_("Cash Actually Handed cannot be more than the cash settled minus the deducted commission ({0})").format(
+				logic.r2(self.amount_due - self.commission_offset)))
 		self.difference = logic.settlement_difference(self.amount_due, self.commission_offset, self.amount_handed)
 
 	def before_submit(self):
 		to_user = frappe.db.get_value(PROFILE, self.to_profile, "user")
 		if not (permissions.is_manager() or frappe.session.user == to_user):
 			frappe.throw(_("Only the receiver confirms a settlement"), frappe.PermissionError)
+		if self.owner == frappe.session.user and not permissions.is_manager():
+			frappe.throw(_("The person who created the settlement cannot also confirm it"), frappe.PermissionError)
 		accounting.require("settlement")
 
 	def on_submit(self):

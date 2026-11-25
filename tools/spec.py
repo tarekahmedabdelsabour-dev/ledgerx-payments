@@ -69,7 +69,7 @@ DOCTYPES.append(dict(
 # --------------------------------------------------------------------------- profile
 DOCTYPES.append(dict(
 	name="Payment Agent Profile", autoname="format:PA-{#####}", title_field="full_name", icon="fa fa-user",
-	search_fields="full_name,user,mobile_no", perms=[(MGR, "cr_w_d_exp_rep_prt"), (SYS, "cr_w_d_exp_rep_prt"), (SUP, "r_rep_prt"), (AGT, "r"), (AUD, "r_rep_prt_exp")],
+	search_fields="full_name,user,mobile_no", perms=[(MGR, "r_cr_w_d_exp_rep_prt"), (SYS, "r_cr_w_d_exp_rep_prt"), (SUP, "r_rep_prt"), (AGT, "r"), (AUD, "r_rep_prt_exp")],
 	fields=[
 		F("user", "Link", "Login User", options="User", reqd=1, unique=1, in_list_view=1),
 		F("full_name", "Data", "Full Name", fetch_from="user.full_name", read_only=1, in_list_view=1),
@@ -149,7 +149,7 @@ DOCTYPES.append(dict(
 ))
 DOCTYPES.append(dict(
 	name="Commission Rule", autoname="field:rule_name", icon="fa fa-percent", title_field="rule_name",
-	perms=[(MGR, "cr_w_d_exp_rep_prt"), (SYS, "cr_w_d_exp_rep_prt"), (SUP, "r_rep_prt"), (AUD, "r_rep_prt_exp")],
+	perms=[(MGR, "r_cr_w_d_exp_rep_prt"), (SYS, "r_cr_w_d_exp_rep_prt"), (SUP, "r_rep_prt"), (AUD, "r_rep_prt_exp")],
 	fields=[
 		F("rule_name", "Data", "Rule Name", reqd=1, unique=1, in_list_view=1),
 		F("enabled", "Check", "Enabled", default=1, in_list_view=1),
@@ -166,7 +166,7 @@ DOCTYPES.append(dict(
 ))
 DOCTYPES.append(dict(
 	name="Payment Service", autoname="field:service_name", icon="fa fa-plug", title_field="service_name",
-	perms=[(MGR, "cr_w_d_exp_rep_prt"), (SYS, "cr_w_d_exp_rep_prt"), (SUP, "r_rep_prt"), (AGT, "r"), (AUD, "r_rep_prt_exp")],
+	perms=[(MGR, "r_cr_w_d_exp_rep_prt"), (SYS, "r_cr_w_d_exp_rep_prt"), (SUP, "r_rep_prt"), (AGT, "r"), (AUD, "r_rep_prt_exp")],
 	fields=[
 		F("service_name", "Data", "Service Name", reqd=1, unique=1, in_list_view=1),
 		F("category", "Select", "Category", options="Bill Payment\nMobile Top-up\nVoucher\nOther", default="Bill Payment", in_list_view=1, in_standard_filter=1),
@@ -244,7 +244,7 @@ DOCTYPES.append(dict(
 # --------------------------------------------------------------------------- charge / settlement / approval / audit
 DOCTYPES.append(dict(
 	name="Wallet Charge", autoname="format:WCH-{#####}", submittable=True, icon="fa fa-plus-circle",
-	perms=[(MGR, "cr_w_d_exp_rep_prt_sub_can"), (SYS, "cr_w_d_exp_rep_prt_sub_can"), (SUP, "r_w_cr_rep_prt_sub"), (AGT, "r"), (AUD, "r_rep_prt_exp")],
+	perms=[(MGR, "r_cr_w_d_exp_rep_prt_sub_can"), (SYS, "r_cr_w_d_exp_rep_prt_sub_can"), (SUP, "r_w_cr_rep_prt_sub"), (AGT, "r"), (AUD, "r_rep_prt_exp")],
 	fields=[
 		F("charge_type", "Select", "Type", options="Transfer\nCompany Funding", default="Transfer", reqd=1, in_list_view=1,
 			description="Company Funding adds money from the company's bank or cash to a manager's wallet. Transfer moves balance down the chain manager > supervisor > agent (or back up)."),
@@ -264,7 +264,7 @@ DOCTYPES.append(dict(
 ))
 DOCTYPES.append(dict(
 	name="Cash Settlement", autoname="format:CSE-{#####}", submittable=True, icon="fa fa-handshake-o",
-	perms=[(MGR, "cr_w_d_exp_rep_prt_sub_can"), (SYS, "cr_w_d_exp_rep_prt_sub_can"), (SUP, "r_w_cr_rep_prt_sub"), (AGT, "r_w_cr_rep_prt"), (AUD, "r_rep_prt_exp")],
+	perms=[(MGR, "r_cr_w_d_exp_rep_prt_sub_can"), (SYS, "r_cr_w_d_exp_rep_prt_sub_can"), (SUP, "r_w_cr_rep_prt_sub"), (AGT, "r_w_cr_rep_prt"), (AUD, "r_rep_prt_exp")],
 	fields=[
 		F("stage", "Select", "Stage", options="Agent to Supervisor\nSupervisor to Manager", reqd=1, in_list_view=1, in_standard_filter=1),
 		F("settlement_date", "Date", "Date", default="Today", reqd=1),

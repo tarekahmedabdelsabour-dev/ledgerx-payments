@@ -1,6 +1,6 @@
 {
  "actions": [],
- "creation": "2026-11-15 17:04:02.048680",
+ "creation": "2026-11-25 10:01:58.296864",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
@@ -149,7 +149,7 @@
   }
  ],
  "links": [],
- "modified": "2026-11-15 17:04:02.048680",
+ "modified": "2026-11-25 10:01:58.296864",
  "modified_by": "Administrator",
  "module": "Payment Network",
  "name": "Cash Settlement",
@@ -161,6 +161,7 @@
    "delete": 1,
    "export": 1,
    "print": 1,
+   "read": 1,
    "report": 1,
    "role": "Payment Manager",
    "submit": 1,
@@ -172,6 +173,7 @@
    "delete": 1,
    "export": 1,
    "print": 1,
+   "read": 1,
    "report": 1,
    "role": "System Manager",
    "submit": 1,

@@ -196,13 +196,18 @@ def pay_invoice(amount, pin=None, idempotency_key=None, sales_invoice=None, pos_
 	if bool(sales_invoice) == bool(pos_invoice):
 		frappe.throw(_("Choose either a Sales Invoice or a POS Invoice"))
 	dt, inv = ("Sales Invoice", sales_invoice) if sales_invoice else ("POS Invoice", pos_invoice)
-	d = frappe.db.get_value(dt, inv, ["docstatus", "customer", "outstanding_amount", "company"], as_dict=True) \
+	d = frappe.db.get_value(dt, inv, ["docstatus", "customer", "outstanding_amount", "company"], as_dict=True, for_update=True) \
 		if frappe.db.exists(dt, inv) else None
 	if not d or d.docstatus != 1:
 		frappe.throw(_("The invoice must exist and be submitted"))
 	amount = logic.r2(amount)
-	if amount <= 0 or (dt == "Sales Invoice" and amount > flt(d.outstanding_amount) + 0.005):
-		frappe.throw(_("The amount must not be more than the invoice outstanding ({0})").format(d.outstanding_amount))
+	# money already on its way (Pending/Processing) counts against the outstanding, for Sales and POS invoices alike
+	in_flight = flt(frappe.db.sql(
+		f"SELECT COALESCE(SUM(amount),0) FROM `tab{PT}` WHERE kind='Invoice Payment' AND status IN ('Pending','Processing') "
+		"AND (sales_invoice=%s OR pos_invoice=%s)", (inv, inv))[0][0])
+	room = flt(d.outstanding_amount) - in_flight
+	if amount <= 0 or amount > room + 0.005:
+		frappe.throw(_("The amount must not be more than the invoice outstanding ({0})").format(max(room, 0)))
 	ledger.lock([ledger.wallet_of(profile.name)])
 	if (err := logic.check_limits(limit_context(profile, amount, 0, needs_float=False))):
 		frappe.throw(limit_message(err))
@@ -270,9 +275,10 @@ def _route(txn, request_type):
 # ------------------------------------------------------------------ provider round trip
 def start(name):
 	"""Hold the money, commit, call the provider, apply its answer."""
-	txn = frappe.get_doc(PT, name)
-	if txn.status != "Pending":
+	# lock the row first: two callers (approval click + retry) must not both start the same transaction
+	if frappe.db.get_value(PT, name, "status", for_update=True) != "Pending":
 		return result(name)
+	txn = frappe.get_doc(PT, name)
 	if txn.kind == "Service":
 		ledger.lock([txn.wallet])
 		profile = frappe.db.get_value("Payment Agent Profile", txn.agent, "*", as_dict=True)
@@ -422,9 +428,9 @@ def request_reversal(name, reason):
 
 
 def decide(request, approve, note=None):
-	req = frappe.get_doc("Payment Approval Request", request)
-	if req.status != "Pending":
+	if frappe.db.get_value("Payment Approval Request", request, "status", for_update=True) != "Pending":
 		frappe.throw(_("This request was already decided"))
+	req = frappe.get_doc("Payment Approval Request", request)
 	permissions.require_can_decide(req.agent, req.requested_by)
 	frappe.db.set_value("Payment Approval Request", request, {
 		"status": "Approved" if approve else "Rejected", "decided_by": frappe.session.user,

@@ -54,6 +54,7 @@ Bill Payment,سداد فاتورة خدمات
 Calculated As,طريقة الاحتساب
 Callback address for the provider: {0},عنوان الاستدعاء الراجع لمزود الدفع: {0}
 Cash Actually Handed,النقدية المسلَّمة فعليًا
+Cash Actually Handed cannot be more than the cash settled minus the deducted commission ({0}),المبلغ المسلَّم فعليًا لا يجوز أن يزيد عن النقد المسوّى مخصومًا منه العمولة ({0})
 Cash Actually Handed cannot be negative,لا يمكن أن تكون النقدية المسلَّمة فعليًا سالبة
 Cash Being Settled,النقدية المراد تسليمها
 Cash Being Settled must be greater than zero,يجب أن تكون النقدية المراد تسليمها أكبر من صفر
@@ -315,6 +316,7 @@ The invoice must be submitted and the amount not more than its outstanding,يج�
 The invoice must exist and be submitted,يجب أن تكون الفاتورة موجودة ومعتمدة
 The maximum amount is below the minimum,الحد الأقصى للمبلغ أقل من الحد الأدنى
 The part of the cash held that this settlement clears.,الجزء من النقدية بحوزة المندوب الذي يسدده هذا التسليم.
+The person who created the settlement cannot also confirm it,من أنشأ التسوية لا يجوز له تأكيدها
 The provider did not confirm the refund: {0},لم يؤكد مزود الدفع الاسترداد: {0}
 "The provider signs each callback with this secret (HMAC-SHA256, header X-Signature). Unsigned or wrongly signed callbacks are rejected.",يوقّع مزود الدفع كل استدعاء راجع بهذا السر (HMAC-SHA256 في ترويسة X-Signature). تُرفض الاستدعاءات غير الموقعة أو الموقعة توقيعًا خاطئًا.
 The receiving profile must be active,يجب أن يكون الملف المستلم نشطًا
@@ -378,6 +380,7 @@ You have no supervisor to hand the cash to,ليس لديك مشرف لتسليم
 "You hold {0} in cash, the limit is {1}. Hand over cash to your supervisor first.",بحوزتك {0} نقدًا والحد {1}. سلّم نقدية إلى مشرفك أولًا.
 Your account is suspended. Contact your supervisor.,حسابك موقوف. تواصل مع مشرفك.
 Your balance ({0}) is not enough,رصيدك ({0}) غير كافٍ
+"Your profile is registered as {0}. The agent screen is for agents only: create a separate user and profile with role type Agent for field work, and use the desk to supervise.",حسابك مسجّل بدور {0}. شاشة المندوب للمناديب فقط: أنشئ مستخدمًا وملفًا مستقلًا بدور مندوب للعمل الميداني، واستخدم المكتب للإشراف.
 Your user has no active payment profile,ليس لمستخدمك ملف دفع نشط
 Your user is not registered as a payment agent,مستخدمك غير مسجّل كمندوب دفع
 no maximum,بلا حد أقصى
@@ -385,4 +388,3 @@ no maximum,بلا حد أقصى
 {0} is required,{0} مطلوب
 {0} must belong to {1},يجب أن ينتمي {0} إلى {1}
 {0} must not be a group account,يجب ألا يكون {0} حساب مجموعة
-"Your profile is registered as {0}. The agent screen is for agents only: create a separate user and profile with role type Agent for field work, and use the desk to supervise.",حسابك مسجّل بدور {0}. شاشة المندوب للمناديب فقط: أنشئ مستخدمًا وملفًا مستقلًا بدور مندوب للعمل الميداني، واستخدم المكتب للإشراف.
