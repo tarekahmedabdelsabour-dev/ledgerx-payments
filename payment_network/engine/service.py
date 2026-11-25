@@ -87,7 +87,7 @@ def set_pin(profile_name, new_pin, old_pin=None):
 # ------------------------------------------------------------------ limits
 def daily_total(profile):
 	return flt(frappe.db.sql(
-		f"SELECT COALESCE(SUM(amount),0) FROM `tab{PT}` WHERE agent=%s AND kind='Service' "
+		f"SELECT COALESCE(SUM(amount),0) FROM `tab{PT}` WHERE agent=%s AND kind IN ('Service','Invoice Payment') "
 		"AND status IN ('Processing','Success') AND DATE(started_at)=%s", (profile, nowdate()))[0][0])
 
 
