@@ -68,7 +68,7 @@ def split_pool(pool, agent_pct, supervisor_pct, company_pct, has_supervisor=True
 def check_limits(c):
 	"""First rule an operation breaks, as (code, params), or None. `c` is a plain dict (see service._context)."""
 	amount = float(c["amount"])
-	collect = float(c.get("collect") or amount)
+	collect = amount if c.get("collect") is None else float(c["collect"])
 	if c.get("status") != "Active":
 		return ("SUSPENDED", {})
 	for key in ("txn_limit", "global_txn_limit"):

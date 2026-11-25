@@ -312,6 +312,7 @@ The balances do NOT match the ledger: {0},الأرصدة لا تطابق دفت�
 The balances match the ledger.,الأرصدة تطابق دفتر الأستاذ.
 The code the provider uses for this service.,الرمز الذي يستخدمه مزود الدفع لهذه الخدمة.
 The deducted commission cannot be more than the earned commission ({0}) or the cash settled,لا يمكن أن تزيد العمولة المخصومة عن العمولة المكتسبة ({0}) أو عن النقدية المسلَّمة
+The funding account must be a bank or cash account of the company,حساب التمويل يجب أن يكون حسابًا بنكيًا أو نقديًا للشركة
 The invoice must be submitted and the amount not more than its outstanding,يجب أن تكون الفاتورة معتمدة وألا يزيد المبلغ عن المتبقي عليها
 The invoice must exist and be submitted,يجب أن تكون الفاتورة موجودة ومعتمدة
 The maximum amount is below the minimum,الحد الأقصى للمبلغ أقل من الحد الأدنى

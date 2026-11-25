@@ -338,6 +338,7 @@ PN = {
 	"Cash Actually Handed cannot be more than the cash settled minus the deducted commission ({0})": "المبلغ المسلَّم فعليًا لا يجوز أن يزيد عن النقد المسوّى مخصومًا منه العمولة ({0})",
 	"The person who created the settlement cannot also confirm it": "من أنشأ التسوية لا يجوز له تأكيدها",
 	"Your profile is registered as {0}. The agent screen is for agents only: create a separate user and profile with role type Agent for field work, and use the desk to supervise.": "حسابك مسجّل بدور {0}. شاشة المندوب للمناديب فقط: أنشئ مستخدمًا وملفًا مستقلًا بدور مندوب للعمل الميداني، واستخدم المكتب للإشراف.",
+	"The funding account must be a bank or cash account of the company": "حساب التمويل يجب أن يكون حسابًا بنكيًا أو نقديًا للشركة",
 	"Wrong PIN": "الرقم السري خاطئ",
 	"Wrong PIN Attempts Before Lock": "عدد محاولات الرقم السري الخاطئة قبل القفل",
 	"You can only transfer from your own wallet": "يمكنك التحويل من محفظتك فقط",

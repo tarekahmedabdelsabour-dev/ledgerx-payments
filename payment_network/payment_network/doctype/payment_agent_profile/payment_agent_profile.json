@@ -1,6 +1,6 @@
 {
  "actions": [],
- "creation": "2026-11-25 10:01:58.296864",
+ "creation": "2026-11-25 16:32:23.495683",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
@@ -154,6 +154,7 @@
    "label": "PIN Hash",
    "hidden": 1,
    "print_hide": 1,
+   "permlevel": 9,
    "read_only": 1,
    "no_copy": 1
   },
@@ -167,7 +168,7 @@
   }
  ],
  "links": [],
- "modified": "2026-11-25 10:01:58.296864",
+ "modified": "2026-11-25 16:32:23.495683",
  "modified_by": "Administrator",
  "module": "Payment Network",
  "name": "Payment Agent Profile",

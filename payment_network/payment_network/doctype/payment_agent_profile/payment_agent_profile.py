@@ -43,6 +43,12 @@ class PaymentAgentProfile(Document):
 			user = frappe.get_doc("User", self.user)
 			user.append("roles", {"role": role})
 			user.save(ignore_permissions=True)
+		# a changed role type must not leave the previous payment role behind (unless another profile of the user needs it)
+		if self.user:
+			stale = [r for k, r in ROLE_OF.items() if r != role and not frappe.db.exists(
+				"Payment Agent Profile", {"user": self.user, "role_type": k, "name": ["!=", self.name]})]
+			for r in stale:
+				frappe.db.delete("Has Role", {"parent": self.user, "parenttype": "User", "role": r})
 
 	def on_trash(self):
 		if frappe.db.exists("Wallet Ledger Entry", {"agent": self.name}) or frappe.db.exists("Payment Transaction", {"agent": self.name}):

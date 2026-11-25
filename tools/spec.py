@@ -91,7 +91,7 @@ DOCTYPES.append(dict(
 		C(),
 		F("failed_pin_attempts", "Int", "Failed PIN Attempts", **RO),
 		F("locked_until", "Datetime", "Locked Until", **RO),
-		F("pin_hash", "Data", "PIN Hash", hidden=1, print_hide=1, **RO),
+		F("pin_hash", "Data", "PIN Hash", hidden=1, print_hide=1, permlevel=9, **RO),
 		F("wallet", "Link", "Wallet", options="Agent Wallet", **RO),
 	],
 ))

@@ -27,6 +27,9 @@ class WalletCharge(Document):
 				frappe.throw(_("Company funding goes to a manager's wallet"))
 			if not self.funding_account:
 				frappe.throw(_("Choose the bank or cash account the money comes from"))
+			acc = frappe.db.get_value("Account", self.funding_account, ["account_type", "is_group", "company"], as_dict=True)
+			if not acc or acc.is_group or acc.account_type not in ("Bank", "Cash") or (self.company and acc.company != self.company):
+				frappe.throw(_("The funding account must be a bank or cash account of the company"))
 			self.from_profile = None
 			return
 		self.funding_account = None

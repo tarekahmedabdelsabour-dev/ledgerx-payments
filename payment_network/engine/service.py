@@ -115,6 +115,14 @@ def limit_message(err):
 
 
 # ------------------------------------------------------------------ create
+def _existing_of(key, agent):
+	"""The transaction behind a duplicate key, only if it belongs to this agent."""
+	name = _existing(key)
+	if name and frappe.db.get_value(PT, name, "agent") != agent:
+		frappe.throw(_("Not permitted"), frappe.PermissionError)
+	return name
+
+
 def _existing(key):
 	return frappe.db.get_value(PT, {"idempotency_key": key}, "name")
 
@@ -182,7 +190,7 @@ def execute(service, amount, customer_reference=None, pin=None, idempotency_key=
 		txn = _insert(values)
 	except (frappe.DuplicateEntryError, frappe.UniqueValidationError):
 		frappe.db.rollback()
-		return result(_existing(idempotency_key))
+		return result(_existing_of(idempotency_key, profile.name))
 	audit.log("Transaction created", PT, txn.name, {"amount": amount, "service": service})
 	return _route(txn, "Large Transaction")
 
@@ -209,7 +217,7 @@ def pay_invoice(amount, pin=None, idempotency_key=None, sales_invoice=None, pos_
 	if amount <= 0 or amount > room + 0.005:
 		frappe.throw(_("The amount must not be more than the invoice outstanding ({0})").format(max(room, 0)))
 	ledger.lock([ledger.wallet_of(profile.name)])
-	if (err := logic.check_limits(limit_context(profile, amount, 0, needs_float=False))):
+	if (err := logic.check_limits(limit_context(profile, amount, amount, needs_float=False))):
 		frappe.throw(limit_message(err))
 	values = _base_values(profile, "Invoice Payment", idempotency_key, amount, device_id)
 	values.update({"customer": d.customer, "customer_reference": inv, "total_collected": amount,
@@ -218,7 +226,7 @@ def pay_invoice(amount, pin=None, idempotency_key=None, sales_invoice=None, pos_
 		txn = _insert(values)
 	except (frappe.DuplicateEntryError, frappe.UniqueValidationError):
 		frappe.db.rollback()
-		return result(_existing(idempotency_key))
+		return result(_existing_of(idempotency_key, profile.name))
 	audit.log("Transaction created", PT, txn.name, {"amount": amount, "invoice": inv})
 	return _route(txn, "Large Transaction")
 
@@ -249,7 +257,7 @@ def pay_supplier(purchase_invoice, amount, idempotency_key, supplier_reference=N
 		txn = _insert(values)
 	except (frappe.DuplicateEntryError, frappe.UniqueValidationError):
 		frappe.db.rollback()
-		return result(_existing(idempotency_key))
+		return result(_existing_of(idempotency_key, profile.name))
 	audit.log("Supplier payment created", PT, txn.name, {"amount": amount, "invoice": purchase_invoice})
 	return _route(txn, "Large Transaction")
 

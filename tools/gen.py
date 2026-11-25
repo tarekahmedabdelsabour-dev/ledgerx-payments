@@ -112,6 +112,7 @@ def build_doctype(d):
 		doc["editable_grid"] = 1
 	elif d.get("single"):
 		doc["issingle"] = 1
+		doc["track_changes"] = 1
 	else:
 		doc["track_changes"] = d.get("track_changes", 1)
 		doc["allow_import"] = d.get("allow_import", 1)
