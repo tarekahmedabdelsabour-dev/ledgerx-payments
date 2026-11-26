@@ -45,8 +45,12 @@ def check_device(profile, device_id):
 			frappe.db.commit()
 			frappe.throw(_("This device is not registered for your account"), frappe.PermissionError)
 	elif device_id:
-		frappe.db.set_value("Payment Agent Profile", profile.name, "device_id", device_id, update_modified=False)
-		audit.log("Device registered", "Payment Agent Profile", profile.name, {"device_id": device_id})
+		# the first device is only requested here; a manager approves it on the profile (Approve Device)
+		if profile.get("pending_device_id") != device_id:
+			frappe.db.set_value("Payment Agent Profile", profile.name, "pending_device_id", device_id, update_modified=False)
+			audit.log("Device requested", "Payment Agent Profile", profile.name, {"device_id": device_id})
+			frappe.db.commit()  # keep the request although this call stops with an error below
+		frappe.throw(_("Your device is waiting for a manager's approval"), frappe.PermissionError)
 
 
 def check_pin(profile, pin):
@@ -265,11 +269,12 @@ def pay_supplier(purchase_invoice, amount, idempotency_key, supplier_reference=N
 def _route(txn, request_type):
 	"""Large amounts wait for approval; everything else goes straight to the provider."""
 	thr = flt(settings().approval_threshold)
-	if thr and txn.kind != "Supplier Payment" and txn.amount >= thr:
+	supplier = txn.kind == "Supplier Payment"  # always needs a second manager, whatever the amount
+	if supplier or (thr and txn.amount >= thr):
 		req = frappe.get_doc({
 			"doctype": "Payment Approval Request", "request_type": request_type, "transaction": txn.name, "agent": txn.agent,
 			"amount": txn.amount, "requested_by": frappe.session.user, "status": "Pending",
-			"reason": _("Amount at or above {0}").format(thr),
+			"reason": _("A supplier payment needs the approval of a second manager") if supplier else _("Amount at or above {0}").format(thr),
 		})
 		req.flags.pn_engine = True
 		req.insert(ignore_permissions=True)
@@ -399,7 +404,6 @@ def reverse(name):
 		frappe.throw(_("The provider did not confirm the refund: {0}").format(res.message))
 	vals = {"status": "Reversed", "reversed_at": now_datetime()}
 	if txn.kind == "Service":
-		a = accounting.accounts_map("service")
 		sup_wallet = ledger.wallet_of(txn.supervisor) if flt(txn.supervisor_commission) else None
 		ledger.lock([txn.wallet, sup_wallet])
 		ledger.post(txn.wallet, "Available", "Credit", txn.amount, PT, name, group=name + "-R", remarks=_("Reversal of {0}").format(name))
@@ -408,7 +412,8 @@ def reverse(name):
 			ledger.post(txn.wallet, "Commission", "Debit", txn.agent_commission, PT, name, group=name + "-R", allow_negative=True)
 		if flt(txn.supervisor_commission):
 			ledger.post(sup_wallet, "Commission", "Debit", txn.supervisor_commission, PT, name, group=name + "-R", allow_negative=True)
-		lines = accounting.invert(accounting.service_lines(txn.amount, txn.fee, flt(txn.agent_commission), flt(txn.supervisor_commission), a))
+		# reverse with the accounts of the ORIGINAL entry, not today's settings (which may have changed since)
+		lines = accounting.invert(accounting.original_lines(txn.journal_entry))
 		vals["reversal_journal_entry"] = accounting.make_je(lines, _("Reversal of payment {0}").format(name), f"{PT} {name}", name)
 	else:
 		accounting.cancel_doc("Payment Entry", txn.payment_entry)
@@ -440,6 +445,8 @@ def decide(request, approve, note=None):
 		frappe.throw(_("This request was already decided"))
 	req = frappe.get_doc("Payment Approval Request", request)
 	permissions.require_can_decide(req.agent, req.requested_by)
+	if frappe.db.get_value(PT, req.transaction, "kind") == "Supplier Payment" and not permissions.is_manager():
+		frappe.throw(_("Only a payment manager can approve a supplier payment"), frappe.PermissionError)
 	frappe.db.set_value("Payment Approval Request", request, {
 		"status": "Approved" if approve else "Rejected", "decided_by": frappe.session.user,
 		"decided_on": now_datetime(), "decision_note": note})

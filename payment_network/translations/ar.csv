@@ -7,6 +7,7 @@ A posted charge cannot be cancelled. Post a return transfer instead.,لا يمك
 A profile with activity cannot be deleted. Suspend it instead.,لا يمكن حذف ملف تعريف عليه نشاط. قم بإيقافه بدلًا من ذلك.
 A reversal request is already waiting,يوجد طلب استرجاع معلق بالفعل
 A scheduled job asks the provider about transactions still processing after this long.,تستعلم مهمة مجدولة من مزود الدفع عن العمليات التي ما زالت قيد التنفيذ بعد مرور هذه المدة.
+A supplier payment needs the approval of a second manager,دفعة المورّد تحتاج موافقة مدير ثانٍ
 A transaction at or above this waits for a supervisor/manager approval. 0 = never.,العملية التي يبلغ مبلغها هذا الحد أو أكثر تنتظر موافقة مشرف أو مدير. 0 = لا تنتظر موافقة أبدًا.
 A transaction cannot be deleted,لا يمكن حذف العملية
 A transaction cannot be edited,لا يمكن تعديل العملية
@@ -42,6 +43,7 @@ An idempotency key is required,مفتاح منع التكرار مطلوب
 Approval Request,طلب موافقة
 Approval requests are created by the system,تُنشأ طلبات الموافقة بواسطة النظام
 Approve,موافقة
+Approve Device,اعتماد الجهاز
 Approved,معتمد
 Audit,المراجعة
 Available,المتاح
@@ -121,6 +123,7 @@ Declined by the provider,رفضه مزود الدفع
 Description,الوصف
 Details,التفاصيل
 Device,الجهاز
+Device Waiting for Approval,جهاز في انتظار الموافقة
 Device and PIN,الجهاز والرقم السري
 "Difference (Shortage +, Excess -)",الفرق (عجز +، زيادة -)
 "Difference (shortage +, excess -)",الفرق (عجز +، زيادة -)
@@ -185,10 +188,12 @@ Mode,الوضع
 Mode of Payment,طريقة الدفع
 Name,الاسم
 New PIN (4 to 6 digits),الرقم السري الجديد (من 4 إلى 6 أرقام)
+No device is waiting for approval,لا يوجد جهاز في انتظار الموافقة
 No {0} group account found for {1},لم يتم العثور على حساب مجموعة من نوع {0} للشركة {1}
 Not permitted,غير مسموح
 Notes,ملاحظات
 Nothing to create: all accounts are set.,لا يوجد ما يُنشأ: جميع الحسابات محددة.
+Only a payment manager can approve a supplier payment,اعتماد دفعة المورّد لمدير المدفوعات فقط
 Only a payment manager can fund the company wallet,مدير الدفع وحده يمكنه تمويل محفظة الشركة
 Only a payment manager can pay suppliers,مدير الدفع وحده يمكنه سداد الموردين
 Only a payment manager can reverse a transaction directly,مدير الدفع وحده يمكنه استرجاع العملية مباشرة
@@ -316,6 +321,7 @@ The funding account must be a bank or cash account of the company,حساب ال�
 The invoice must be submitted and the amount not more than its outstanding,يجب أن تكون الفاتورة معتمدة وألا يزيد المبلغ عن المتبقي عليها
 The invoice must exist and be submitted,يجب أن تكون الفاتورة موجودة ومعتمدة
 The maximum amount is below the minimum,الحد الأقصى للمبلغ أقل من الحد الأدنى
+"The original journal entry of this payment is missing, so it cannot be reversed automatically",قيد اليومية الأصلي لهذه الدفعة مفقود، فلا يمكن عكسها تلقائيًا
 The part of the cash held that this settlement clears.,الجزء من النقدية بحوزة المندوب الذي يسدده هذا التسليم.
 The person who created the settlement cannot also confirm it,من أنشأ التسوية لا يجوز له تأكيدها
 The provider did not confirm the refund: {0},لم يؤكد مزود الدفع الاسترداد: {0}
@@ -381,6 +387,7 @@ You have no supervisor to hand the cash to,ليس لديك مشرف لتسليم
 "You hold {0} in cash, the limit is {1}. Hand over cash to your supervisor first.",بحوزتك {0} نقدًا والحد {1}. سلّم نقدية إلى مشرفك أولًا.
 Your account is suspended. Contact your supervisor.,حسابك موقوف. تواصل مع مشرفك.
 Your balance ({0}) is not enough,رصيدك ({0}) غير كافٍ
+Your device is waiting for a manager's approval,جهازك في انتظار موافقة المدير
 "Your profile is registered as {0}. The agent screen is for agents only: create a separate user and profile with role type Agent for field work, and use the desk to supervise.",حسابك مسجّل بدور {0}. شاشة المندوب للمناديب فقط: أنشئ مستخدمًا وملفًا مستقلًا بدور مندوب للعمل الميداني، واستخدم المكتب للإشراف.
 Your user has no active payment profile,ليس لمستخدمك ملف دفع نشط
 Your user is not registered as a payment agent,مستخدمك غير مسجّل كمندوب دفع

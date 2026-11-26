@@ -101,6 +101,15 @@ def service_lines(amount, fee, agent_comm, sup_comm, a):
 	return lines
 
 
+def original_lines(journal_entry):
+	"""The (account, debit, credit) lines of an already booked Journal Entry."""
+	if not journal_entry:
+		frappe.throw(_("The original journal entry of this payment is missing, so it cannot be reversed automatically"))
+	rows = frappe.get_all("Journal Entry Account", filters={"parent": journal_entry},
+		fields=["account", "debit_in_account_currency", "credit_in_account_currency"])
+	return [(r.account, flt(r.debit_in_account_currency), flt(r.credit_in_account_currency)) for r in rows]
+
+
 def invert(lines):
 	return [(acc, cr, dr) for acc, dr, cr in lines]
 

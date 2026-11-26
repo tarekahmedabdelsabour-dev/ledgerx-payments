@@ -1,6 +1,6 @@
 {
  "actions": [],
- "creation": "2026-11-25 20:53:57.070886",
+ "creation": "2026-11-26 08:40:28.278588",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
@@ -19,6 +19,7 @@
   "cash_custody_limit",
   "section_break_2",
   "device_id",
+  "pending_device_id",
   "pin_set",
   "column_break_3",
   "failed_pin_attempts",
@@ -121,7 +122,14 @@
   {
    "fieldname": "device_id",
    "fieldtype": "Data",
-   "label": "Registered Device"
+   "label": "Registered Device",
+   "read_only": 1
+  },
+  {
+   "fieldname": "pending_device_id",
+   "fieldtype": "Data",
+   "label": "Device Waiting for Approval",
+   "read_only": 1
   },
   {
    "fieldname": "pin_set",
@@ -168,7 +176,7 @@
   }
  ],
  "links": [],
- "modified": "2026-11-25 20:53:57.070886",
+ "modified": "2026-11-26 08:40:28.278588",
  "modified_by": "Administrator",
  "module": "Payment Network",
  "name": "Payment Agent Profile",

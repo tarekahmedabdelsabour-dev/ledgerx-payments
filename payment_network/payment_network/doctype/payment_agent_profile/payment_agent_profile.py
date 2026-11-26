@@ -60,15 +60,28 @@ class PaymentAgentProfile(Document):
 
 		service.set_pin(self.name, pin)
 
-	@frappe.whitelist()
+	@frappe.whitelist(methods=["POST"])
 	def reset_device(self):
 		from payment_network import permissions
 		from payment_network.engine import audit
 
 		if not permissions.is_manager():
 			frappe.throw(_("Not permitted"), frappe.PermissionError)
-		frappe.db.set_value(self.doctype, self.name, "device_id", None)
+		frappe.db.set_value(self.doctype, self.name, {"device_id": None, "pending_device_id": None})
 		audit.log("Device reset", self.doctype, self.name)
+
+	@frappe.whitelist(methods=["POST"])
+	def approve_device(self):
+		from payment_network import permissions
+		from payment_network.engine import audit
+
+		if not permissions.is_manager():
+			frappe.throw(_("Not permitted"), frappe.PermissionError)
+		pending = frappe.db.get_value(self.doctype, self.name, "pending_device_id")
+		if not pending:
+			frappe.throw(_("No device is waiting for approval"))
+		frappe.db.set_value(self.doctype, self.name, {"device_id": pending, "pending_device_id": None})
+		audit.log("Device approved", self.doctype, self.name, {"device_id": pending})
 
 	@frappe.whitelist()
 	def unlock(self):
